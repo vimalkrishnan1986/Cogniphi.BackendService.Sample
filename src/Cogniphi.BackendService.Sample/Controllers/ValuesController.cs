@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Steeltoe.Discovery;
 using Steeltoe.Common.Discovery;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cogniphi.BackendService.Sample.Controllers
 {
@@ -22,6 +23,7 @@ namespace Cogniphi.BackendService.Sample.Controllers
             _handler = new DiscoveryHttpClientHandler(client);
         }
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public ActionResult<string> Get()
         {
             _logger.LogInformation("Get call");

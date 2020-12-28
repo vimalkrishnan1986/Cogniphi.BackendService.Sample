@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/Cogniphi.BackendService.Sample/config
+/src/Cogniphi.BackendService.Sample/bin/Debug/netcoreapp3.1
+/src/Cogniphi.BackendService.Sample/obj
+/src/Cogniphi.BackendService.Sample/bin/Release/netcoreapp3.1
+/.vs/Cogniphi.BackendService.Sample
