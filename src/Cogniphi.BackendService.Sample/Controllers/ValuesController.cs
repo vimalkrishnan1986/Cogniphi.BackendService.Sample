@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Cogniphi.BackendService.Sample.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : Controller
     {
         DiscoveryHttpClientHandler _handler;
         private readonly ILogger _logger;
@@ -23,7 +22,7 @@ namespace Cogniphi.BackendService.Sample.Controllers
             _handler = new DiscoveryHttpClientHandler(client);
         }
         [HttpGet]
-        [Authorize(Roles = "Administrators")]
+        [AuthorizationFilter]
         public ActionResult<string> Get()
         {
             _logger.LogInformation("Get call");
