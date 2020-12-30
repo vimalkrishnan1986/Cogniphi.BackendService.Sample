@@ -22,7 +22,7 @@ namespace Cogniphi.BackendService.Sample.Controllers
             _handler = new DiscoveryHttpClientHandler(client);
         }
         [HttpGet]
-        [AuthorizationFilter]
+        [Authorize("openid")]
         public ActionResult<string> Get()
         {
             _logger.LogInformation("Get call");
