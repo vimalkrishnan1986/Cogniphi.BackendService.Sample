@@ -28,23 +28,6 @@ namespace Cogniphi.BackendService.Sample
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-  
-}).AddCookie().AddOpenIdConnect(options =>
-{
-    options.ClientId = Configuration["Oidc:ClientId"];
-    options.ClientSecret = Configuration["Oidc:ClientSecret"];
-    options.Authority = Configuration["Oidc:Authority"];
-    options.SaveTokens = true;
-    options.GetClaimsFromUserInfoEndpoint = true;
-    options.ResponseType = OpenIdConnectResponseType.Code;
-    options.RequireHttpsMetadata = false;
-    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}
-);
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("Oidc"));
 
             services.AddAuthorization(options =>
