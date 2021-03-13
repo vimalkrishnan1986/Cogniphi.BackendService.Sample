@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Steeltoe.Discovery;
 using Steeltoe.Common.Discovery;
 using Microsoft.AspNetCore.Authorization;
+using Cogniphi.Platform.Middleware.Authorization.Policies;
 
 namespace Cogniphi.BackendService.Sample.Controllers
 {
@@ -22,7 +23,7 @@ namespace Cogniphi.BackendService.Sample.Controllers
             _handler = new DiscoveryHttpClientHandler(client);
         }
         [HttpGet]
-        [Authorize("openid")]
+        [Authorize(AuthPolices.VerbBasedPolicy)]
         public ActionResult<string> Get()
         {
             _logger.LogInformation("Get call");

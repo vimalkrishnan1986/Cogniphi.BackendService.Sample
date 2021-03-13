@@ -16,6 +16,12 @@
     <PackageReference Include="Steeltoe.Discovery.ClientCore" Version="3.0.1" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.0.1" />
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Version="3.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cogniphi.Platform.Middleware\Cogniphi.Platform.Middleware.csproj" />
   </ItemGroup>
 
   <ItemGroup>

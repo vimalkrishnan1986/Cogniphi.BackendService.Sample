@@ -7,7 +7,7 @@ namespace Cogniphi.Platform.Middleware.Authorization.Policies
 {
     public static class AuthPolices
     {
-        public static string VerbBasedPolicy => "verb";
+        public const string VerbBasedPolicy = "verb";
     }
     public class AccountRequirement : IAuthorizationRequirement
     {

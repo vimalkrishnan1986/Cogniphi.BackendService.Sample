@@ -11,8 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.OpenApi.Models;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Eureka;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cogniphi.BackendService.Sample
 {
@@ -28,16 +31,19 @@ namespace Cogniphi.BackendService.Sample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.Configure<OpenIdConnectOptions>(Configuration.GetSection("Oidc"));
+            services.AddAuthentication(Configuration);
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("openid", policy => policy.RequireClaim("scope", "openid"));
                 options.AddVerbPolicy(services);
             });
-            services.AddServiceDiscovery(options => options.UseEureka());
+            //services.AddServiceDiscovery(options => options.UseEureka());
             services.AddMvc();
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +55,7 @@ namespace Cogniphi.BackendService.Sample
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseDiscoveryClient();
+            //app.UseDiscoveryClient();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -57,6 +63,18 @@ namespace Cogniphi.BackendService.Sample
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "backend v1");
+            });
+
+            app.Run((context) =>
+            {
+                return Task.Run(() => context.Response.Redirect("swagger/index.html"));
+            });
+
         }
     }
 }
