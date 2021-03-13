@@ -32,14 +32,11 @@ namespace Cogniphi.Platform.Middleware.Authorization
 );
         }
 
-        public static void AddVerbPolicy(this IServiceCollection services)
+        public static void AddVerbPolicy(this AuthorizationOptions options, IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(AuthPolices.VerbBasedPolicy,
-                                  policy => policy.Requirements.Add(new AccountRequirement()));
-            });
+            options.AddPolicy(AuthPolices.VerbBasedPolicy,
+                              policy => policy.Requirements.Add(new AccountRequirement()));
             services.AddSingleton<IAuthorizationHandler, AccountHandler>();
         }
     }

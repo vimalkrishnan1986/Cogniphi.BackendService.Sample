@@ -7,3 +7,5 @@
 /src/Cogniphi.BackendService.Sample/obj
 /src/Cogniphi.BackendService.Sample/bin/Release/netcoreapp3.1
 /.vs/Cogniphi.BackendService.Sample
+/src/Cogniphi.Platform.Middleware/obj
+/src/Cogniphi.Platform.Middleware/bin/Debug/netcoreapp3.1

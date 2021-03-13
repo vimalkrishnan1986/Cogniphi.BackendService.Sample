@@ -1,3 +1,4 @@
+using Cogniphi.Platform.Middleware.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,11 +30,10 @@ namespace Cogniphi.BackendService.Sample
         {
 
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("Oidc"));
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("openid", policy => policy.RequireClaim("scope", "openid"));
-
+                options.AddVerbPolicy(services);
             });
             services.AddServiceDiscovery(options => options.UseEureka());
             services.AddMvc();
