@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cogniphi.Platform.Middleware.Authorization
@@ -44,13 +45,17 @@ namespace Cogniphi.Platform.Middleware.Authorization
               });
         }
 
-        public static void AddVerbPolicy(this AuthorizationOptions options, IServiceCollection services)
+        public static void RegisterVerbPolicy(this AuthorizationOptions options)
         {
             options.AddPolicy(AuthPolices.VerbBasedPolicy, configure =>
                          {
-                             configure.Requirements.Add(new AccountRequirement("vimal"));
+                             configure.Requirements.Add(new PolicyRequirement());
                          });
-            services.AddScoped<IAuthorizationHandler, AccountHandler>();
+        }
+
+        public static void RegisterHandlers(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthorizationHandler, PolicyHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }

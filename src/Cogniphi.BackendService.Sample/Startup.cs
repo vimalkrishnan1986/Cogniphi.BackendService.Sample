@@ -40,25 +40,15 @@ namespace Cogniphi.BackendService.Sample
             services.AddAuthentication(Configuration);
             services.AddAuthorization(options =>
             {
-                options.AddVerbPolicy(services);
+                options.RegisterVerbPolicy();
             });
 
-            //services.AddAuthorization(configure =>
-            //{
-
-            //    configure.AddPolicy(AuthPolices.VerbBasedPolicy, policy =>
-            //     {
-            //         policy.Requirements.Add(new AccountRequirement("vimal"));
-
-            //     });
-            //});
-            services.AddScoped<IAuthorizationHandler, AccountHandler>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.RegisterHandlers();
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
-                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-            });
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
