@@ -25,13 +25,12 @@ namespace Cogniphi.Platform.Middleware.Authorization
                   option.SaveToken = true;
                   option.Authority = configuration["Jwt:Authority"];
                   option.Audience = configuration["Jwt:Audience"];
-                  option.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuerSigningKey = false,
-                      ValidateAudience = false,
-                      ValidateLifetime = false,
-                      ValidIssuer = configuration["Jwt:Issuer"]
-                  };
+                  //option.TokenValidationParameters = new TokenValidationParameters
+                  //{
+                  //    ValidateIssuerSigningKey = false,
+                  //    ValidateAudience = false,
+                  //    ValidateLifetime = false,
+                  //};
 
                   option.Events = new JwtBearerEvents
                   {
@@ -47,10 +46,12 @@ namespace Cogniphi.Platform.Middleware.Authorization
 
         public static void AddVerbPolicy(this AuthorizationOptions options, IServiceCollection services)
         {
+            options.AddPolicy(AuthPolices.VerbBasedPolicy, configure =>
+                         {
+                             configure.Requirements.Add(new AccountRequirement("vimal"));
+                         });
+            services.AddScoped<IAuthorizationHandler, AccountHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            options.AddPolicy(AuthPolices.VerbBasedPolicy,
-                              policy => policy.Requirements.Add(new AccountRequirement()));
-            services.AddSingleton<IAuthorizationHandler, AccountHandler>();
         }
     }
 

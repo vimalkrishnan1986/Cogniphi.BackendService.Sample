@@ -10,12 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cogniphi.BackendService.Sample.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
-
-    public class InfoController : ControllerBase
+    public class InfoController : Controller
     {
         [HttpGet]
-        [Authorize(AuthPolices.VerbBasedPolicy)]
+        [Authorize(Policy = AuthPolices.VerbBasedPolicy)]
         public ActionResult<string> Get()
         {
             return "sample backend";

@@ -11,6 +11,12 @@ namespace Cogniphi.Platform.Middleware.Authorization.Policies
     }
     public class AccountRequirement : IAuthorizationRequirement
     {
+        private string _account;
+
+        public AccountRequirement(string account)
+        {
+            _account = account;
+        }
 
     }
 
@@ -24,15 +30,12 @@ namespace Cogniphi.Platform.Middleware.Authorization.Policies
         }
 
         protected override Task HandleRequirementAsync(
-            AuthorizationHandlerContext context,
-            AccountRequirement requirement)
+    AuthorizationHandlerContext context,
+    AccountRequirement requirement)
         {
             // check the claims here and if  current method available in the ciams .mark succed;
-            var httpMethod = _httpContextAccessor.HttpContext.Request.Method;
-            if (httpMethod == "POST")
-            {
-                context.Succeed(requirement);
-            }
+            context.Succeed(requirement);
+
             return Task.CompletedTask;
         }
     }

@@ -1,10 +1,13 @@
 using Cogniphi.Platform.Middleware.Authorization;
+using Cogniphi.Platform.Middleware.Authorization.Policies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,14 +34,26 @@ namespace Cogniphi.BackendService.Sample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //services.AddServiceDiscovery(options => options.UseEureka());
+            services.AddControllers();
             services.AddAuthentication(Configuration);
             services.AddAuthorization(options =>
             {
                 options.AddVerbPolicy(services);
             });
-            //services.AddServiceDiscovery(options => options.UseEureka());
-            services.AddMvc();
-            services.AddControllers();
+
+            //services.AddAuthorization(configure =>
+            //{
+
+            //    configure.AddPolicy(AuthPolices.VerbBasedPolicy, policy =>
+            //     {
+            //         policy.Requirements.Add(new AccountRequirement("vimal"));
+
+            //     });
+            //});
+            services.AddScoped<IAuthorizationHandler, AccountHandler>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
